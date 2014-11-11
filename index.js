@@ -7,7 +7,7 @@ var mime = require('mime');
 var async = require('async');
 mime.default_type = 'text/plain';
 
-module.exports = function (aws, options) {
+module.exports = function (aws, options, done) {
   options = options || {};
 
   if (!options.delay) { options.delay = 0; }
@@ -67,6 +67,9 @@ module.exports = function (aws, options) {
       });
     }, function (err) {
       self.emit('end', err);
+      if (typeof done === 'function') {
+        done();
+      }
     });
   });
 };
